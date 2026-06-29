@@ -1,0 +1,32 @@
+{
+  "name": "ai-record-preserver",
+  "version": "1.0.0",
+  "description": "",
+  "main": "database.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/melting2402-png/AI-Record-Preserver.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/melting2402-png/AI-Record-Preserver/issues"
+  },
+  "homepage": "https://github.com/melting2402-png/AI-Record-Preserver#readme",
+  "dependencies": {
+    "@google/genai": "^2.10.0",
+    "formidable": "^3.5.4",
+    "mammoth": "^1.12.0",
+    "multer": "^2.2.0",
+    "pdfjs-dist": "^6.1.200",
+    "pptx2json": "^0.0.10",
+    "tesseract.js": "^7.0.0",
+    "textract": "^2.5.0",
+    "xlsx": "^0.18.5"
+  }
+}

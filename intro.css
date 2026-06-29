@@ -1,0 +1,55 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background: #000;
+    color: #fff;
+    font-family: 'Syne', sans-serif;
+    overflow: hidden;
+    height: 100vh;
+}
+
+#bgCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+}
+
+.drag-container {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    align-items: center;
+    padding: 0 150px;
+    gap: 300px;
+    overflow-x: auto;
+    cursor: grab;
+}
+
+/* Scrollbar Styling */
+.drag-container::-webkit-scrollbar { height: 14px; }
+.drag-container::-webkit-scrollbar-track { background: #050505; border-radius: 10px; }
+.drag-container::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; border: 2px solid #000; }
+.drag-container::-webkit-scrollbar-thumb:hover { background: #fff; }
+
+.intro-panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 900px;
+    flex-shrink: 0;
+    user-select: none;
+    transition: opacity 0.5s ease;
+}
+
+.intro-panel h1 { font-size: 100px; font-weight: 800; line-height: 0.9; margin-bottom: 25px; letter-spacing: 2px; }
+.intro-panel h2 { font-size: 65px; font-weight: 800; margin-bottom: 20px; letter-spacing: 1px; }
+.intro-panel p { font-size: 24px; color: #9a9a9a; line-height: 1.5; max-width: 600px; }
+
+.drag-hint { margin-top: 50px; color: #555; font-size: 16px; letter-spacing: 3px; text-transform: uppercase; font-weight: 700; animation: pulse 2s infinite; }
+@keyframes pulse { 0% { opacity: 0.2; } 50% { opacity: 1; } 100% { opacity: 0.2; } }
+
+.enter-btn { display: inline-block; background: #fff; color: #000; text-decoration: none; padding: 24px 48px; font-size: 20px; font-weight: 800; border-radius: 14px; margin-top: 40px; text-transform: uppercase; border: 2px solid #fff; width: max-content; transition: 0.3s; }
+.enter-btn:hover { background: #000; color: #fff; transform: translateY(-5px); }

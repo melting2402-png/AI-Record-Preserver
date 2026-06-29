@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Record Preserver</title>
+
+<link rel="stylesheet" href="style.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<nav class="navbar">
+
+<div class="logo">
+AI RECORD PRESERVER
+</div>
+
+<div class="nav-right">
+
+<div class="status-dot"></div>
+
+<span>ONLINE</span>
+
+</div>
+
+</nav>
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+<h1>Your Intelligent Memory Vault</h1>
+
+<p>
+Store • Analyze • Preserve • Retrieve
+</p>
+
+</section>
+
+<!-- ================= DASHBOARD ================= -->
+
+<div class="dashboard">
+
+<!-- LEFT COLUMN -->
+
+<div class="left-column">
+
+<!-- Upload -->
+
+<div class="card upload-card">
+
+<h2>Upload Document</h2>
+
+<div class="upload-zone" id="uploadZone">
+
+<div class="upload-icon">
+☁️
+</div>
+
+<h3>Drag & Drop Files</h3>
+
+<p>or click below to browse</p>
+
+<input
+id="recordTitle"
+type="text"
+placeholder="Enter record title">
+
+<input
+id="fileInput"
+type="file"
+hidden>
+
+<button id="browseBtn">
+Browse Files
+</button>
+
+<p class="upload-types">
+
+PDF • DOCX • TXT • JSON • HTML • Images
+
+</p>
+
+<button id="uploadBtn">
+
+Upload & Analyze
+
+</button>
+
+</div>
+
+</div>
+
+<!-- Search -->
+
+<div class="card search-card">
+
+<h2>Search Vault</h2>
+
+<input
+id="searchInput"
+type="text"
+placeholder="Search files">
+
+<button id="searchBtn">
+
+Search
+
+</button>
+
+</div>
+
+<!-- Stats -->
+
+<div class="card stats-card">
+
+<h2>Vault Statistics</h2>
+
+<div class="stat">
+
+<h3 id="recordCount">
+
+0
+
+</h3>
+
+<p>Records</p>
+
+</div>
+
+<div class="stat">
+
+<h3 id="analysisCount">
+
+0
+
+</h3>
+
+<p>AI Analyses</p>
+
+</div>
+
+<div class="stat">
+
+<h3 id="storageCount">
+
+0 KB
+
+</h3>
+
+<p>Storage Used</p>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- RIGHT COLUMN -->
+
+<div class="right-column">
+
+<!-- Records -->
+
+<div class="card">
+
+<div class="section-title">
+
+<h2>Recent Records</h2>
+
+</div>
+
+<div id="recordList">
+
+</div>
+
+</div>
+
+<!-- AI Assistant -->
+
+<div class="card assistant-card">
+
+<h2>
+
+AI Memory Assistant
+
+</h2>
+
+<div id="chatMessages">
+
+<div class="welcome-message">
+
+👋 Hello!
+
+<br><br>
+
+Ask me anything about your uploaded records.
+
+</div>
+
+</div>
+
+<div class="chatRow">
+
+<input
+
+id="chatInput"
+
+type="text"
+
+placeholder="Ask your vault anything...">
+
+<button id="sendChat">
+
+Send
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ================= AI PROCESSING OVERLAY ================= -->
+
+<div id="aiOverlay" class="ai-overlay">
+
+    <div class="ai-box">
+
+        <div class="ai-circle">
+
+            <div class="ai-inner">
+
+                <span id="progressPercent">0%</span>
+
+            </div>
+
+        </div>
+
+        <h2>AI CORE</h2>
+
+        <p id="processingStatus">
+
+            Initializing...
+
+        </p>
+
+        <div class="progress-bar">
+
+            <div id="progressFill"></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="script.js"></script>
+
+<script src="database.js"></script>
+
+</body>
+</html>
