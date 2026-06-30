@@ -101,29 +101,31 @@ Analyze this image carefully.
 
 Your job is to understand EVERYTHING visible in the image.
 
-If you recognize any famous person, identify them if you are confident.
+Identify:
 
-If you recognize any landmark, monument, building, logo, artwork, country flag, book cover, movie poster, celebrity, vehicle, animal, food, or object, identify it.
+- Any famous public figure (politician, actor, athlete, scientist, musician, historical figure, influencer, etc.) if you are highly confident.
+- Any famous landmark, monument, building, logo, company, flag, artwork, book cover, movie poster, sports team logo, or brand if you are highly confident.
+- Any animals, vehicles, foods, plants, products, electronic devices, maps, charts, graphs, or objects that are clearly visible.
+- Any visible text exactly as written.
+- Whether the image is a photograph, screenshot, scanned document, drawing, painting, meme, infographic, or chart.
 
-Read every visible piece of text.
+Describe:
 
-Explain what is happening.
+- What is happening in the image.
+- The surroundings or environment.
+- People's clothing, expressions, posture, and actions.
+- Important colors, objects, and relationships.
+- Any important events or activities taking place.
 
-Describe the environment.
+If the image is a screenshot, explain what application, website, or interface it appears to show.
 
-Describe people's expressions and actions.
+If the image contains a graph or chart, explain what the data represents.
 
-If the image contains a graph or chart, explain it.
+If the image contains handwriting, read it if it is legible.
 
-If it contains handwriting, read it.
+If you are not highly confident about an identity or object, DO NOT guess. Instead, describe what you can see.
 
-If it contains a screenshot, explain what application or website it appears to be.
-
-Never guess.
-
-If uncertain, clearly state you are unsure.
-
-Choose ONE category from:
+Choose ONE category ONLY from this list:
 
 Biography
 History
@@ -153,17 +155,23 @@ Map
 Chart
 Other
 
-Choose ONE sentiment:
+Choose ONE sentiment ONLY from:
 
 Positive
 Neutral
 Negative
 
-Return ONLY valid JSON:
+Return ONLY valid JSON.
+
+Do NOT use markdown.
+Do NOT use code blocks.
+Do NOT include any text before or after the JSON.
+
+Return exactly this format:
 
 {
-  "summary":"A detailed description of everything important visible in the image.",
-  "category":"Best matching category",
+  "summary":"A detailed 4-6 sentence description of everything important in the image.",
+  "category":"One category from the list above",
   "keywords":[
     "keyword1",
     "keyword2",
