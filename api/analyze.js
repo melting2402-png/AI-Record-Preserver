@@ -19,20 +19,23 @@ export default async function handler(req, res) {
 
     try {
 
+        const apiKey = process.env.GEMINI_API_KEY;
+
+        if (!apiKey) {
+            return res.status(500).json({
+                error: "GEMINI_API_KEY is missing."
+            });
+        }
+
+        const ai = new GoogleGenAI({ apiKey });
+
         const [fields, files] = await new Promise((resolve, reject) => {
 
-            const form = formidable({
-                multiples: false
-            });
+            const form = formidable({ multiples: false });
 
             form.parse(req, (err, fields, files) => {
-
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve([fields, files]);
-                }
-
+                if (err) reject(err);
+                else resolve([fields, files]);
             });
 
         });
@@ -49,141 +52,98 @@ export default async function handler(req, res) {
         uploadedFile.buffer = fs.readFileSync(uploadedFile.filepath);
 
         const mimeType = uploadedFile.mimetype;
-let prompt;
-let response;
 
-const ai = new GoogleGenAI({ apiKey });
+        let extractedText = "";
 
-if (mimeType.startsWith("image/")) {
+        // =========================
+        // IMAGE HANDLING
+        // =========================
+        if (mimeType.startsWith("image/")) {
 
-    console.log("Image detected");
+            const prompt = mode === "chat"
+                ? "Answer questions about this image."
+                : "Analyze this image and summarize it.";
 
-    prompt = mode === "chat"
-        ? "Answer the user's questions about this image."
-        : `Analyze this image.
-
-Return ONLY valid JSON.
-
-{
-  "summary": "Describe the image",
-  "category": "Image",
-  "keywords": ["keyword1","keyword2","keyword3","keyword4","keyword5"],
-  "sentiment": "Neutral"
-}`;
-
-    response = await ai.models.generateContent({
-        model: "gemini-2.5-flash",
-        contents: [
-            {
-                role: "user",
-                parts: [
-                    { text: prompt },
+            const response = await ai.models.generateContent({
+                model: "gemini-2.5-flash",
+                contents: [
                     {
-                        inlineData: {
-                            mimeType: mimeType,
-                            data: uploadedFile.buffer.toString("base64")
-                        }
+                        role: "user",
+                        parts: [
+                            { text: prompt },
+                            {
+                                inlineData: {
+                                    mimeType,
+                                    data: uploadedFile.buffer.toString("base64")
+                                }
+                            }
+                        ]
                     }
                 ]
-            }
-        ]
-    });
-
-} else {
-
-    const text = await extractText(uploadedFile);
-
-    if (!text || text.trim() === "") {
-        return res.status(400).json({
-            error: "Could not extract text from uploaded file."
-        });
-    }
-
-    prompt = mode === "chat"
-        ? `Answer ONLY using this document:\n\n${text}`
-        : `Summarize this document:\n\n${text}`;
-
-    response = await ai.models.generateContent({
-        model: "gemini-2.5-flash",
-        contents: prompt
-    });
-
-}
-
-        const apiKey = process.env.GEMINI_API_KEY;
-
-        if (!apiKey) {
-            return res.status(500).json({
-                error: "GEMINI_API_KEY is missing."
             });
+
+            extractedText = response.text || "";
+
         }
 
-        let prompt = "";
+        // =========================
+        // TEXT / PDF / DOC HANDLING
+        // =========================
+        else {
+
+            extractedText = await extractText(uploadedFile);
+
+            if (!extractedText || extractedText.trim() === "") {
+                return res.status(400).json({
+                    error: "Could not extract text from file."
+                });
+            }
+        }
+
+        // =========================
+        // FINAL PROMPT
+        // =========================
+        let prompt;
 
         if (mode === "chat") {
 
             prompt = `
 You are an AI assistant.
 
-Answer ONLY using the document below.
+Answer ONLY using the content below.
 
-If the answer is not in the document, reply exactly:
+If answer is not present, say:
+"I couldn't find that information in the uploaded document."
 
-I couldn't find that information in the uploaded documents.
-
-Document:
-${text}
+CONTENT:
+${extractedText}
 `;
 
         } else {
 
             prompt = `
-Analyze the following document.
+Analyze the following content.
 
-Return ONLY valid JSON.
-
-Do not use markdown.
-Do not use code blocks.
-Do not explain anything.
-
-Return exactly:
+Return ONLY valid JSON:
 
 {
   "summary": "3-5 sentence summary",
   "category": "Research",
-  "keywords": [
-    "keyword1",
-    "keyword2",
-    "keyword3",
-    "keyword4",
-    "keyword5"
-  ],
+  "keywords": ["k1","k2","k3","k4","k5"],
   "sentiment": "Positive"
 }
 
-Document:
-
-${text}
+CONTENT:
+${extractedText}
 `;
-
         }
 
-        const ai = new GoogleGenAI({
-            apiKey
-        });
-
+        // =========================
+        // FINAL AI CALL
+        // =========================
         const response = await ai.models.generateContent({
             model: "gemini-2.5-flash",
-            contents: [
-                {
-                    role: "user",
-                    parts: [
-                        {
-                            text: prompt
-                        }
-                    ]
-                }
-            ]
+            contents: prompt
         });
 
         const result = response.text;
@@ -194,10 +154,9 @@ ${text}
             });
         }
 
-
         return res.status(200).json({
             summary: result,
-            text: text
+            text: extractedText
         });
 
     } catch (err) {
@@ -207,7 +166,5 @@ ${text}
         return res.status(500).json({
             error: err.message
         });
-
     }
-
 }
