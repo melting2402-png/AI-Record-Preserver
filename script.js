@@ -505,6 +505,13 @@ async function analyzeWithAI(file) {
 
     formData.append("mode", "analyze");
 
+    const imageTypes = [
+    "image/png",
+    "image/jpeg",
+    "image/jpg",
+    "image/webp"
+];
+
     const response = await fetch("/api/analyze", {
 
         method: "POST",
