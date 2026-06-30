@@ -728,20 +728,26 @@ function viewRecord(id){
 
 }
 
-document.getElementById("closeModal").onclick = function(){
+const closeBtn = document.getElementById("closeModal");
 
-    document.getElementById("recordModal").style.display = "none";
+if (closeBtn) {
 
-};
+    closeBtn.addEventListener("click", () => {
 
-window.onclick = function(event){
+        document.getElementById("recordModal").style.display = "none";
+
+    });
+
+}
+
+window.addEventListener("click", (event) => {
 
     const modal = document.getElementById("recordModal");
 
-    if(event.target === modal){
+    if (event.target === modal) {
 
         modal.style.display = "none";
 
     }
 
-};
+});
