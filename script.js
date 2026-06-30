@@ -600,6 +600,11 @@ const fill=document.getElementById("progressFill");
 
 const status=document.getElementById("processingStatus");
 
+percent.innerText = "0%";
+fill.style.width = "0%";
+status.textContent = "Initializing AI...";
+overlay.style.display = "flex";
+
 overlay.style.display="flex";
 
 const stages=[
@@ -644,7 +649,13 @@ await new Promise(r=>setTimeout(r,20));
 
 function hideAIProcessing(){
 
-document.getElementById("aiOverlay").style.display="none";
+    document.getElementById("aiOverlay").style.display="none";
+
+    document.getElementById("progressPercent").innerText="0%";
+
+    document.getElementById("progressFill").style.width="0%";
+
+    document.getElementById("processingStatus").textContent="Initializing AI...";
 
 }
 
