@@ -226,51 +226,71 @@ function displayRecords(list = records){
 
         card.innerHTML = `
 
+<div class="record-header">
 
+    <div class="record-icon">
 
-            <h3>${record.title}</h3>
+        📄
 
+    </div>
 
+    <div>
 
-            <p><strong>File:</strong> ${record.fileName}</p>
+        <h3>${record.title}</h3>
 
+        <small>${record.uploadDate}</small>
 
+    </div>
 
-            <p><strong>Type:</strong> ${record.fileType}</p>
+</div>
 
+<div class="record-badges">
 
+    <span class="badge category">
 
-            <p><strong>Size:</strong> ${record.fileSize}</p>
+        ${record.category}
 
+    </span>
 
+    <span class="badge sentiment">
 
-            <p><strong>Uploaded:</strong> ${record.uploadDate}</p>
+        ${record.sentiment}
 
+    </span>
 
+</div>
 
-            <p><strong>Summary:</strong> ${record.summary}</p>
+<p class="record-summary">
 
-            <p><strong>Category:</strong> ${record.category}</p>
+${record.summary}
 
-            <p><strong>Keywords:</strong> ${record.keywords.join(", ")}</p>
+</p>
 
-            <p><strong>Sentiment:</strong> ${record.sentiment}</p>
+<div class="keyword-container">
 
+${record.keywords.map(keyword => `
+<span class="keyword">${keyword}</span>
+`).join("")}
 
+</div>
 
-            <button class="delete-btn" onclick="deleteRecord(${record.id})">
+<div class="record-actions">
 
+<button class="view-btn">
 
+View Details
 
-                Delete
+</button>
 
+<button class="delete-btn" onclick="deleteRecord(${record.id})">
 
+Delete
 
-            </button>
+</button>
 
+</div>
 
-
-        `;
+`;
 
 
 
