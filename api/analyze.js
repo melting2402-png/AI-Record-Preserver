@@ -281,14 +281,18 @@ if (isImage) {
 }
 
 const response = await ai.models.generateContent({
-
     model: "gemini-2.5-flash",
-
-    contents
-
+    contents,
+    config: {
+        responseMimeType: "application/json"
+    }
 });
 
         const result = response.candidates?.[0]?.content?.parts?.[0]?.text;
+        let cleanResult = result
+    .replace(/```json/gi, "")
+    .replace(/```/g, "")
+    .trim();
 
         if (!result) {
             return res.status(500).json({
@@ -298,9 +302,9 @@ const response = await ai.models.generateContent({
 
 
         return res.status(200).json({
-            summary: result,
-            text: text
-        });
+    summary: cleanResult,
+    text: text
+});
 
     } catch (err) {
 
