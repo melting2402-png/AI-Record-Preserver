@@ -48,13 +48,67 @@ export default async function handler(req, res) {
 
         uploadedFile.buffer = fs.readFileSync(uploadedFile.filepath);
 
-        const text = await extractText(uploadedFile);
+        const mimeType = uploadedFile.mimetype;
+let prompt;
+let response;
 
-        if (!text || text.trim() === "") {
-            return res.status(400).json({
-                error: "Could not extract text from the uploaded file."
-            });
-        }
+const ai = new GoogleGenAI({ apiKey });
+
+if (mimeType.startsWith("image/")) {
+
+    console.log("Image detected");
+
+    prompt = mode === "chat"
+        ? "Answer the user's questions about this image."
+        : `Analyze this image.
+
+Return ONLY valid JSON.
+
+{
+  "summary": "Describe the image",
+  "category": "Image",
+  "keywords": ["keyword1","keyword2","keyword3","keyword4","keyword5"],
+  "sentiment": "Neutral"
+}`;
+
+    response = await ai.models.generateContent({
+        model: "gemini-2.5-flash",
+        contents: [
+            {
+                role: "user",
+                parts: [
+                    { text: prompt },
+                    {
+                        inlineData: {
+                            mimeType: mimeType,
+                            data: uploadedFile.buffer.toString("base64")
+                        }
+                    }
+                ]
+            }
+        ]
+    });
+
+} else {
+
+    const text = await extractText(uploadedFile);
+
+    if (!text || text.trim() === "") {
+        return res.status(400).json({
+            error: "Could not extract text from uploaded file."
+        });
+    }
+
+    prompt = mode === "chat"
+        ? `Answer ONLY using this document:\n\n${text}`
+        : `Summarize this document:\n\n${text}`;
+
+    response = await ai.models.generateContent({
+        model: "gemini-2.5-flash",
+        contents: prompt
+    });
+
+}
 
         const apiKey = process.env.GEMINI_API_KEY;
 
@@ -132,7 +186,7 @@ ${text}
             ]
         });
 
-        const result = response.candidates?.[0]?.content?.parts?.[0]?.text;
+        const result = response.text;
 
         if (!result) {
             return res.status(500).json({
