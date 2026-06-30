@@ -306,67 +306,63 @@ function deleteRecord(id){
 
 function searchRecords(){
 
-
-
     const query = document
-
         .getElementById("searchInput")
-
         .value
-
         .toLowerCase()
-
         .trim();
 
-
-
-    if(query === ""){
-
-
+    if(query===""){
 
         displayRecords();
 
-
-
         return;
-
-
 
     }
 
+    const filtered = records.filter(record=>{
 
+        return(
 
-    const filtered = records.filter(function(record){
+            record.title.toLowerCase().includes(query)
 
+            ||
 
+            record.fileName.toLowerCase().includes(query)
 
-        return (
-
-
-
-            record.title.toLowerCase().includes(query) ||
-
-
-
-            record.fileName.toLowerCase().includes(query) ||
-
-
+            ||
 
             record.fileType.toLowerCase().includes(query)
 
+            ||
 
+            (record.summary||"").toLowerCase().includes(query)
+
+            ||
+
+            (record.content||"").toLowerCase().includes(query)
+
+            ||
+
+            (record.category||"").toLowerCase().includes(query)
+
+            ||
+
+            (record.sentiment||"").toLowerCase().includes(query)
+
+            ||
+
+            record.keywords.some(keyword=>
+
+                keyword.toLowerCase().includes(query)
+
+            )
 
         );
 
-
-
     });
 
-
-
     displayRecords(filtered);
-
-
 
 }
 
