@@ -326,38 +326,62 @@ function searchRecords(){
 
         return(
 
-            record.title.toLowerCase().includes(query)
+            (record.title || "")
+                .toLowerCase()
+                .includes(query)
 
             ||
 
-            record.fileName.toLowerCase().includes(query)
+            (record.fileName || "")
+                .toLowerCase()
+                .includes(query)
 
             ||
 
-            record.fileType.toLowerCase().includes(query)
+            (record.fileType || "")
+                .toLowerCase()
+                .includes(query)
 
             ||
 
-            (record.summary||"").toLowerCase().includes(query)
+            (record.fileSize || "")
+                .toLowerCase()
+                .includes(query)
 
             ||
 
-            (record.content||"").toLowerCase().includes(query)
+            (record.uploadDate || "")
+                .toLowerCase()
+                .includes(query)
 
             ||
 
-            (record.category||"").toLowerCase().includes(query)
+            (record.summary || "")
+                .toLowerCase()
+                .includes(query)
 
             ||
 
-            (record.sentiment||"").toLowerCase().includes(query)
+            (record.content || "")
+                .toLowerCase()
+                .includes(query)
 
             ||
 
-            record.keywords.some(keyword=>
+            (record.category || "")
+                .toLowerCase()
+                .includes(query)
 
+            ||
+
+            (record.sentiment || "")
+                .toLowerCase()
+                .includes(query)
+
+            ||
+
+            (record.keywords || []).some(keyword =>
                 keyword.toLowerCase().includes(query)
-
             )
 
         );
