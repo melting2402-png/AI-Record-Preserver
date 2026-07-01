@@ -77,154 +77,45 @@ if (!isImage && !isAudio && !isVideo) {
 
         let prompt = "";
 
-        if (mode === "chat") {
+       if (mode === "chat") {
 
     prompt = `
-Analyze the following document carefully.
+You are an intelligent AI assistant.
 
-Your job is to understand EVERYTHING contained in the document.
+The following document has already been uploaded by the user.
 
-Identify:
+Your job is to answer the user's questions ONLY using the information contained in this document.
 
-- The main topic.
-- The purpose of the document.
-- Important people.
-- Organizations.
-- Companies.
-- Countries.
-- Cities.
-- Dates.
-- Financial figures.
-- Percentages.
-- Statistics.
-- Laws.
-- Policies.
-- Scientific concepts.
-- Technologies.
-- Products.
-- Services.
-- Medical terms.
-- Legal terms.
-- Historical events.
-- Important definitions.
-- Important formulas.
-- Important references.
-- Important quotations.
-- Key decisions.
-- Recommendations.
-- Conclusions.
+Read the ENTIRE document carefully before answering.
 
-Describe:
+Rules:
 
-- What the document is about.
-- The overall context.
-- The important ideas.
-- The important facts.
-- Any timeline of events.
-- Any cause-and-effect relationships.
-- Any risks discussed.
-- Any opportunities discussed.
-- Any action items.
-- Any recommendations.
-- Any conclusions.
+- Use ONLY the information found in the document.
+- Never invent information.
+- Never guess.
+- Never use outside knowledge.
+- If the answer is found in multiple sections, combine the information into one complete answer.
+- Mention all relevant people, organizations, companies, locations, dates, times, financial figures, percentages, products, technologies, laws, policies, scientific concepts and historical events whenever they help answer the question.
+- If the user asks for a summary, provide a detailed summary.
+- If the user asks for important points, include every important point.
+- If the user asks for people, list every person mentioned.
+- If the user asks for companies or organizations, list all of them.
+- If the user asks for dates or timeline, include every relevant date.
+- If the user asks for numbers, include every important number, statistic, percentage or financial figure.
+- If the user asks for action items, recommendations or conclusions, list every one.
+- If the user asks to explain a topic, explain it completely using only the document.
+- Keep responses clear, detailed and well organized.
+- Do not output JSON.
+- Answer in normal readable English.
+- If the requested information is not present in the document, reply exactly:
 
-If the document is:
-
-Resume:
-Summarize education, experience, skills and achievements.
-
-Research Paper:
-Summarize objective, methodology, findings and conclusions.
-
-Financial Report:
-Summarize revenue, expenses, profits, losses and financial insights.
-
-Medical Record:
-Summarize diagnosis, medications, treatments and recommendations.
-
-Legal Document:
-Summarize parties involved, agreements, clauses and obligations.
-
-Business Proposal:
-Summarize goals, products, services, budget and strategy.
-
-Meeting Notes:
-Summarize attendees, discussions, decisions and action items.
-
-Invoice:
-Summarize vendor, customer, purchased items, prices and total.
-
-News Article:
-Summarize the event, people involved, timeline and outcome.
-
-Academic Notes:
-Summarize concepts, definitions and key learning points.
-
-Choose ONE category ONLY from this list:
-
-Biography
-History
-Science
-Research
-Technology
-Business
-Finance
-Medicine
-Education
-Legal
-Literature
-Government
-Personal
-Resume
-News
-Meeting
-Invoice
-Research Paper
-Medical Record
-Business Proposal
-Academic Notes
-Policy
-Report
-Manual
-Documentation
-Other
-
-Choose ONE sentiment ONLY from:
-
-Positive
-Neutral
-Negative
-
-Return ONLY valid JSON.
-
-Do NOT use markdown.
-Do NOT use code blocks.
-Do NOT include any explanation.
-
-Return exactly this format:
-
-{
-  "summary":"A detailed 5-8 sentence summary covering all important information.",
-  "category":"One category from the list above",
-  "keywords":[
-    "keyword1",
-    "keyword2",
-    "keyword3",
-    "keyword4",
-    "keyword5",
-    "keyword6",
-    "keyword7",
-    "keyword8",
-    "keyword9",
-    "keyword10"
-  ],
-  "sentiment":"Positive, Neutral or Negative"
-}
+I couldn't find that information in the uploaded documents.
 
 Document:
 
 ${text}
 `;
+
 } else {
 
     if (isImage) {
