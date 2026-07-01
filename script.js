@@ -8,6 +8,8 @@
 
 let records = [];
 
+let chatHistory = [];
+
 
 
 // ===============================
@@ -401,35 +403,40 @@ function searchRecords(){
 
 
 
-async function sendMessage(){
+async function sendMessage() {
 
-    const input=document.getElementById("chatInput");
+    const input = document.getElementById("chatInput");
 
-    const question=input.value.trim();
+    const question = input.value.trim();
 
-    if(question==="") return;
+    if (question === "") return;
 
-    addMessage("You",question);
+    addMessage("You", question);
 
-    input.value="";
+    chatHistory.push({
+        role: "user",
+        text: question
+    });
 
-    if(records.length===0){
+    input.value = "";
 
-        addMessage("AI","Your vault is empty. Upload a document first.");
+    if (records.length === 0) {
+
+        addMessage("AI", "Your vault is empty. Upload a document first.");
 
         return;
 
     }
 
-    addMessage("AI","🧠 Thinking...");
+    addMessage("AI", "🧠 Thinking...");
 
-    try{
+    try {
 
-        let allDocuments="";
+        let allDocuments = "";
 
         records.forEach(record => {
 
-    allDocuments += `
+            allDocuments += `
 
 ==========================
 Title: ${record.title}
@@ -452,43 +459,50 @@ ${record.content}
 
 `;
 
-});
+        });
 
         const response = await fetch("/api/chat", {
 
-            method:"POST",
+            method: "POST",
 
-            headers:{
-
-                "Content-Type":"application/json"
-
+            headers: {
+                "Content-Type": "application/json"
             },
 
             body: JSON.stringify({
 
-    documents: allDocuments,
+                documents: allDocuments,
 
-    question: question
+                question: question,
 
-})
+                history: chatHistory
+
+            })
 
         });
 
-        const data=await response.json();
+        const data = await response.json();
 
         document.querySelector("#chatMessages .message:last-child").remove();
 
-        addMessage("AI",data.summary);
+       addMessage("AI", data.summary);
 
-    }
+chatHistory.push({
+    role: "assistant",
+    text: data.summary
+});
 
-    catch(err){
+if (chatHistory.length > 20) {
+    chatHistory = chatHistory.slice(-20);
+}
 
-        document.querySelector("#chatMessages .message:last-child").remove();
+} catch (err) {
 
-        addMessage("AI","Sorry, I couldn't answer that.");
+    document.querySelector("#chatMessages .message:last-child").remove();
 
-    }
+    addMessage("AI", "Sorry, I couldn't answer that.");
+
+}
 
 }
 
