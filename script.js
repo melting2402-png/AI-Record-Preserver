@@ -461,31 +461,15 @@ ${record.content}
 
         });
 
-        const response = await fetch("/api/chat", {
-
-            method: "POST",
-
-            headers: {
-                "Content-Type": "application/json"
-            },
-
-            body: JSON.stringify({
-
-                documents: allDocuments,
-
-                question: question,
-
-                history: chatHistory
-
-            })
-
-        });
-
         const data = await response.json();
 
-        document.querySelector("#chatMessages .message:last-child").remove();
+if (!response.ok) {
+    throw new Error(data.error || "Unknown server error");
+}
 
-       addMessage("AI", data.summary);
+document.querySelector("#chatMessages .message:last-child").remove();
+
+addMessage("AI", data.summary);
 
 chatHistory.push({
     role: "assistant",
@@ -500,10 +484,9 @@ if (chatHistory.length > 20) {
 
     document.querySelector("#chatMessages .message:last-child").remove();
 
-    addMessage(
-    "AI",
-    "Something went wrong while contacting the AI. Please try again."
-);
+    console.error(err);
+
+    addMessage("AI", err.message);
 
 }
 
