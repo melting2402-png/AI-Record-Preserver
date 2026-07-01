@@ -427,17 +427,32 @@ async function sendMessage(){
 
         let allDocuments="";
 
-        records.forEach(record=>{
+        records.forEach(record => {
 
-            if(record.content){
+    allDocuments += `
 
-                allDocuments+=
-                "\n\nDOCUMENT: "+record.title+
-                "\n"+record.content;
+==========================
+Title: ${record.title}
 
-            }
+Category: ${record.category}
 
-        });
+Summary:
+${record.summary}
+
+Keywords:
+${record.keywords.join(", ")}
+
+Uploaded:
+${record.uploadDate}
+
+Full Content:
+${record.content}
+
+==========================
+
+`;
+
+});
 
         const response = await fetch("/api/chat", {
 
@@ -451,12 +466,9 @@ async function sendMessage(){
 
             body: JSON.stringify({
 
-    mode: "chat",
+    documents: allDocuments,
 
-    text:
-        allDocuments +
-        "\n\nQuestion:\n" +
-        question
+    question: question
 
 })
 
