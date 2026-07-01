@@ -20,29 +20,37 @@ export default async function handler(req, res) {
 
         const response = await ai.models.generateContent({
 
-            model: "gemini-2.5-flash",
+    model: "gemini-2.5-flash",
 
-            contents: [
+    contents: [
+        {
+            role: "user",
+            parts: [
                 {
-                    role: "user",
-                    parts: [
-                        {
-                            text: `
-You are an AI assistant.
+                    text: `
+You are Vaelos AI, an intelligent document assistant.
 
-Answer ONLY using the documents below.
+Your job is to answer questions ONLY from the user's uploaded documents.
 
-If the answer cannot be found, reply exactly:
+Rules:
 
-I couldn't find that information.
+- Carefully read ALL provided documents before answering.
+- You may summarize, explain, infer and connect information across multiple documents.
+- Answer naturally like ChatGPT.
+- If the user asks about an image, use the image description stored in the document as evidence.
+- If the answer is partially available, answer with what you know.
+- Only say "I couldn't find that information in your uploaded documents." if the information truly does not exist.
+
+Documents:
 
 ${text}
 `
-                        }
-                    ]
                 }
             ]
+        }
+    ]
 
+});
         });
 
         const result =
