@@ -59,11 +59,12 @@ function loadRecords() {
 
     records = request.result;
 
+    console.log("Records loaded:", records);
+    console.log("Length:", records.length);
+
     displayRecords();
 
     updateStatistics();
-
-    console.log("Records Loaded!");
 
 };
 
