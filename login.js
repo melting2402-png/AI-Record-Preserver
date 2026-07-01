@@ -18,11 +18,15 @@ loginButton.addEventListener("click", async () => {
 
     }
 
-    catch(err){
+    catch (err) {
 
-        alert(err.message);
-
+    if (err.code === "auth/popup-closed-by-user") {
+        return;
     }
+
+    alert(err.message);
+
+}
 
 });
 
