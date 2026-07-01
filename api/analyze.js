@@ -80,21 +80,154 @@ if (!isImage && !isAudio && !isVideo) {
         if (mode === "chat") {
 
     prompt = `
-You are an AI assistant.
+Analyze the following document carefully.
 
-Answer ONLY using the document below.
+Your job is to understand EVERYTHING contained in the document.
 
-If the answer is not in the document, reply exactly:
+Identify:
 
-I couldn't find that information in the uploaded documents.
+- The main topic.
+- The purpose of the document.
+- Important people.
+- Organizations.
+- Companies.
+- Countries.
+- Cities.
+- Dates.
+- Financial figures.
+- Percentages.
+- Statistics.
+- Laws.
+- Policies.
+- Scientific concepts.
+- Technologies.
+- Products.
+- Services.
+- Medical terms.
+- Legal terms.
+- Historical events.
+- Important definitions.
+- Important formulas.
+- Important references.
+- Important quotations.
+- Key decisions.
+- Recommendations.
+- Conclusions.
+
+Describe:
+
+- What the document is about.
+- The overall context.
+- The important ideas.
+- The important facts.
+- Any timeline of events.
+- Any cause-and-effect relationships.
+- Any risks discussed.
+- Any opportunities discussed.
+- Any action items.
+- Any recommendations.
+- Any conclusions.
+
+If the document is:
+
+Resume:
+Summarize education, experience, skills and achievements.
+
+Research Paper:
+Summarize objective, methodology, findings and conclusions.
+
+Financial Report:
+Summarize revenue, expenses, profits, losses and financial insights.
+
+Medical Record:
+Summarize diagnosis, medications, treatments and recommendations.
+
+Legal Document:
+Summarize parties involved, agreements, clauses and obligations.
+
+Business Proposal:
+Summarize goals, products, services, budget and strategy.
+
+Meeting Notes:
+Summarize attendees, discussions, decisions and action items.
+
+Invoice:
+Summarize vendor, customer, purchased items, prices and total.
+
+News Article:
+Summarize the event, people involved, timeline and outcome.
+
+Academic Notes:
+Summarize concepts, definitions and key learning points.
+
+Choose ONE category ONLY from this list:
+
+Biography
+History
+Science
+Research
+Technology
+Business
+Finance
+Medicine
+Education
+Legal
+Literature
+Government
+Personal
+Resume
+News
+Meeting
+Invoice
+Research Paper
+Medical Record
+Business Proposal
+Academic Notes
+Policy
+Report
+Manual
+Documentation
+Other
+
+Choose ONE sentiment ONLY from:
+
+Positive
+Neutral
+Negative
+
+Return ONLY valid JSON.
+
+Do NOT use markdown.
+Do NOT use code blocks.
+Do NOT include any explanation.
+
+Return exactly this format:
+
+{
+  "summary":"A detailed 5-8 sentence summary covering all important information.",
+  "category":"One category from the list above",
+  "keywords":[
+    "keyword1",
+    "keyword2",
+    "keyword3",
+    "keyword4",
+    "keyword5",
+    "keyword6",
+    "keyword7",
+    "keyword8",
+    "keyword9",
+    "keyword10"
+  ],
+  "sentiment":"Positive, Neutral or Negative"
+}
 
 Document:
+
 ${text}
 `;
-
 } else {
 
-    if (isImage || isAudio || isVideo) {
+    if (isImage) {
 
         prompt = `
 Analyze this image carefully.
@@ -123,7 +256,7 @@ If the image contains a graph or chart, explain what the data represents.
 
 If the image contains handwriting, read it if it is legible.
 
-If you are not highly confident about an identity or object, DO NOT guess. Instead, describe what you can see.
+If you are not highly confident about an identity or object, DO NOT guess.
 
 Choose ONE category ONLY from this list:
 
@@ -163,43 +296,222 @@ Negative
 
 Return ONLY valid JSON.
 
-Do NOT use markdown.
-Do NOT use code blocks.
-Do NOT include any text before or after the JSON.
-
-Return exactly this format:
-
 {
-  "summary":"A detailed 4-6 sentence description of everything important in the image.",
-  "category":"One category from the list above",
-  "keywords":[
-    "keyword1",
-    "keyword2",
-    "keyword3",
-    "keyword4",
-    "keyword5",
-    "keyword6",
-    "keyword7",
-    "keyword8",
-    "keyword9",
-    "keyword10"
-  ],
-  "sentiment":"Positive, Neutral or Negative"
+"summary":"A detailed 4-6 sentence description of everything important in the image.",
+"category":"One category from the list above",
+"keywords":[
+"keyword1","keyword2","keyword3","keyword4","keyword5",
+"keyword6","keyword7","keyword8","keyword9","keyword10"
+],
+"sentiment":"Positive, Neutral or Negative"
 }
 `;
 
-    } else {
+    }
+
+    else if (isAudio) {
+
+        prompt = `
+Analyze this audio recording carefully.
+
+Your job is to understand EVERYTHING contained in the audio.
+
+Identify:
+
+- The language being spoken.
+- Every speaker if multiple speakers exist.
+- Whether it is a conversation, lecture, interview, meeting, podcast, speech, audiobook, voicemail, phone call, news report, music or another recording.
+- Important people, companies, organizations, countries or places mentioned.
+- Dates, numbers, statistics and financial figures.
+- Important events discussed.
+- Products, technologies or services mentioned.
+- Background music, sound effects or environmental sounds.
+
+Describe:
+
+- Everything discussed.
+- Main topic.
+- Important facts.
+- Decisions.
+- Questions and answers.
+- Conclusions.
+- Action items.
+- Timeline if present.
+
+If music exists describe:
+
+- Genre
+- Instruments
+- Mood
+- Vocals
+
+If environmental sounds exist describe them.
+
+Choose ONE category ONLY:
+
+Biography
+History
+Science
+Research
+Technology
+Business
+Finance
+Medicine
+Education
+Legal
+Literature
+Government
+Personal
+Resume
+News
+Meeting
+Interview
+Podcast
+Lecture
+Conversation
+Music
+Entertainment
+Other
+
+Choose ONE sentiment:
+
+Positive
+Neutral
+Negative
+
+Return ONLY valid JSON.
+
+{
+"summary":"A detailed 5-8 sentence summary of everything important in the audio.",
+"category":"One category from the list above",
+"keywords":[
+"keyword1","keyword2","keyword3","keyword4","keyword5",
+"keyword6","keyword7","keyword8","keyword9","keyword10"
+],
+"sentiment":"Positive, Neutral or Negative"
+}
+`;
+
+    }
+
+    else if (isVideo) {
+
+        prompt = `
+Analyze this video carefully.
+
+Your job is to understand EVERYTHING shown AND spoken throughout the video.
+
+Identify:
+
+- Famous public figures if highly confident.
+- Companies, brands, logos and products.
+- Landmarks and locations.
+- Visible text.
+- Charts, presentations and documents.
+- Vehicles, animals, foods, electronic devices and objects.
+- Important scenes.
+- Important actions.
+- Important events.
+- Conversations.
+- Subtitles if visible.
+
+Describe:
+
+- Everything happening.
+- Scene changes.
+- Clothing.
+- Facial expressions.
+- Body language.
+- Important objects.
+- Relationships.
+- Environment.
+- Timeline.
+- Main discussions.
+- Conclusions.
+- Action items.
+
+If it is:
+
+Lecture → summarize teaching.
+
+Meeting → summarize decisions.
+
+Tutorial → summarize steps.
+
+News → summarize news.
+
+Movie/Entertainment → summarize storyline.
+
+Sports → summarize the match or event.
+
+Security footage → summarize suspicious or important events.
+
+Choose ONE category ONLY:
+
+Biography
+History
+Science
+Research
+Technology
+Business
+Finance
+Medicine
+Education
+Legal
+Literature
+Government
+Personal
+Resume
+News
+Meeting
+Lecture
+Tutorial
+Entertainment
+Movie
+Sports
+Security Footage
+Photo
+Artwork
+Landmark
+Screenshot
+Document
+Animal
+Vehicle
+Food
+Nature
+Map
+Chart
+Other
+
+Choose ONE sentiment:
+
+Positive
+Neutral
+Negative
+
+Return ONLY valid JSON.
+
+{
+"summary":"A detailed 5-8 sentence description of everything important in the video.",
+"category":"One category from the list above",
+"keywords":[
+"keyword1","keyword2","keyword3","keyword4","keyword5",
+"keyword6","keyword7","keyword8","keyword9","keyword10"
+],
+"sentiment":"Positive, Neutral or Negative"
+}
+`;
+
+    }
+
+    else {
 
         prompt = `
 Analyze the following document.
 
 Return ONLY valid JSON.
 
-Do NOT use markdown.
-Do NOT use code blocks.
-Do NOT explain anything.
-
-Choose ONE category ONLY from this list:
+Choose ONE category ONLY:
 
 Biography
 History
@@ -218,25 +530,25 @@ Resume
 News
 Other
 
-Choose ONE sentiment ONLY from:
+Choose ONE sentiment:
 
 Positive
 Neutral
 Negative
 
-Return exactly this JSON format:
+Return exactly:
 
 {
-  "summary":"3-5 sentence summary",
-  "category":"One category from the list above",
-  "keywords":[
-    "keyword1",
-    "keyword2",
-    "keyword3",
-    "keyword4",
-    "keyword5"
-  ],
-  "sentiment":"Positive, Neutral or Negative"
+"summary":"3-5 sentence summary",
+"category":"One category from the list above",
+"keywords":[
+"keyword1",
+"keyword2",
+"keyword3",
+"keyword4",
+"keyword5"
+],
+"sentiment":"Positive, Neutral or Negative"
 }
 
 Document:
@@ -244,7 +556,7 @@ Document:
 ${text}
 `;
 
-  }
+    }
 
 }
 
