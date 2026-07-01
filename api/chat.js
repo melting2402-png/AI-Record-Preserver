@@ -124,13 +124,13 @@ Answer:
 
         const response = await ai.models.generateContent({
 
-            model: "gemini-2.5-flash",
+            model: "gemini-2.5-pro",
 
             config: {
-                temperature: 0.4,
+                temperature: 0.5,
                 topP: 0.9,
                 topK: 40,
-                maxOutputTokens: 2048
+                maxOutputTokens: 4096
             },
 
             contents: [
