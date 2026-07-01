@@ -196,6 +196,8 @@ function displayRecords(list = records){
 
         container.innerHTML = "<p>No Records Found.</p>";
 
+        updateStatistics();   // <-- ADD THIS
+
         return;
 
     }
@@ -245,15 +247,11 @@ function displayRecords(list = records){
             <div class="record-actions">
 
                 <button class="view-btn" onclick="viewRecord(${record.id})">
-
                     View Details
-
                 </button>
 
                 <button class="delete-btn" onclick="deleteRecord(${record.id})">
-
                     Delete
-
                 </button>
 
             </div>
@@ -264,6 +262,7 @@ function displayRecords(list = records){
 
     });
 
+    updateStatistics();   // <-- ADD THIS HERE
 }
 
 
