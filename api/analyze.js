@@ -59,14 +59,31 @@ const isVideo = uploadedFile.mimetype.startsWith("video/");
 
 if (isImage || isAudio || isVideo) {
 
-    uploadedMedia = await ai.files.upload({
+uploadedMedia = await ai.files.upload({
     file: uploadedFile.filepath,
     config: {
         mimeType: uploadedFile.mimetype
     }
 });
 
-console.log(uploadedMedia);
+while (true) {
+
+    uploadedMedia = await ai.files.get({
+        name: uploadedMedia.name
+    });
+
+    console.log("Gemini file state:", uploadedMedia.state);
+
+    if (uploadedMedia.state === "ACTIVE") {
+        break;
+    }
+
+    if (uploadedMedia.state === "FAILED") {
+        throw new Error("Gemini failed to process the uploaded file.");
+    }
+
+    await new Promise(resolve => setTimeout(resolve, 2000));
+}
 
 }
 
