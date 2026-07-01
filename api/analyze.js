@@ -50,16 +50,16 @@ export default async function handler(req, res) {
 
         let text = "";
 
-const isImage =
-uploadedFile.mimetype.startsWith("image/");
+const isImage = uploadedFile.mimetype.startsWith("image/");
+const isAudio = uploadedFile.mimetype.startsWith("audio/");
+const isVideo = uploadedFile.mimetype.startsWith("video/");
 
-if(!isImage){
-
+if (!isImage && !isAudio && !isVideo) {
     text = await extractText(uploadedFile);
-
 }
 
-        if (!isImage && (!text || text.trim() === "")) {
+        if (!isImage && !isAudio && !isVideo &&
+    (!text || text.trim() === "")) {
 
     return res.status(400).json({
         error: "Could not extract text from the uploaded file."
@@ -94,7 +94,7 @@ ${text}
 
 } else {
 
-    if (isImage) {
+    if (isImage || isAudio || isVideo) {
 
         prompt = `
 Analyze this image carefully.
@@ -254,7 +254,7 @@ ${text}
 
         let contents;
 
-if (isImage) {
+if (isImage || isAudio || isVideo) {
 
     contents = [
         {
