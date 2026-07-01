@@ -457,6 +457,7 @@ ${record.content}
 `;
 });
 
+        console.log("ABOUT TO CALL API");
 const response = await fetch("/api/chat", {
     method: "POST",
     headers: {
@@ -470,6 +471,8 @@ const response = await fetch("/api/chat", {
 });
 
 const data = await response.json();
+
+        console.log("SERVER RESPONSE:", data);
 
 if (!response.ok) {
     throw new Error(data.error || "Unknown server error");
@@ -492,7 +495,7 @@ if (chatHistory.length > 20) {
 
     document.querySelector("#chatMessages .message:last-child").remove();
 
-    console.error(err);
+    console.error("CHAT ERROR:", err);
 
     addMessage("AI", err.message);
 
