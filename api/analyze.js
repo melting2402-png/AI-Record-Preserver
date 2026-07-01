@@ -68,23 +68,24 @@ uploadedMedia = await ai.files.upload({
 
 while (true) {
 
-    uploadedMedia = await ai.files.get({
+    const currentFile = await ai.files.get({
         name: uploadedMedia.name
     });
 
-    console.log("Gemini file state:", uploadedMedia.state);
+    console.log("Gemini state:", currentFile.state);
 
-    if (uploadedMedia.state === "ACTIVE") {
+    if (currentFile.state === "ACTIVE") {
+        uploadedMedia = currentFile;
         break;
     }
 
-    if (uploadedMedia.state === "FAILED") {
+    if (currentFile.state === "FAILED") {
         throw new Error("Gemini failed to process the uploaded file.");
     }
 
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise(resolve => setTimeout(resolve, 3000));
 }
-
+    
 }
 
         let text = "";
