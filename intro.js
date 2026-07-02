@@ -98,12 +98,6 @@ textCtx.fillText(
     textCanvas.height / 2
 );
 
-renderer.setSize(window.innerWidth,window.innerHeight);
-
-renderer.setPixelRatio(window.devicePixelRatio);
-
-
-
 const imageData = textCtx.getImageData(
     0,
     0,
